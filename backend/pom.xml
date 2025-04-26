@@ -15,12 +15,13 @@
     <artifactId>springai-faq-rag-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <!--name>springai-faq-rag-backend</name-->
+    <name>springai-faq-rag-backend</name>
     <description>FAQ system using Spring AI and RAG</description>
 
     <properties>
         <java.version>23</java.version>
         <spring.boot.version>3.2.4</spring.boot.version>
+        <swagger.version>2.8.6</swagger.version>
         <spring-ai.version>1.0.0-M7</spring-ai.version>
     </properties>
 
@@ -32,6 +33,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -62,6 +67,15 @@
             <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-advisors-vector-store</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
 
         <!-- for tests -->
         <dependency>
@@ -70,8 +84,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

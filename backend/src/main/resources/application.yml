@@ -24,4 +24,12 @@ spring:
         dimensions: 1536
         max-document-batch-size: 10000 # Optional: Maximum number of documents per batch
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 
+logging:
+  level:
+    org.springframework.security: DEBUG
