@@ -1,5 +1,6 @@
 package com.guberan.faq.repository;
 
+import com.guberan.faq.model.ContextItem;
 import com.guberan.faq.model.Faq;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,20 +26,25 @@ class FaqRepositoryTest {
     @Test
     @DisplayName("Should find FAQs by validated flag")
     void testFindByValidated() {
-        Faq faq1 = new Faq(UUID.randomUUID(), "Q1", "A1", true, false, LocalDateTime.now(), 0.8, List.of());
-        Faq faq2 = new Faq(UUID.randomUUID(), "Q2", "A2", false, false, LocalDateTime.now(), 0.6, List.of());
+        UUID docId = UUID.randomUUID();
+        Faq faq1 = new Faq(UUID.randomUUID(), "Q1", "A1", true, false, LocalDateTime.now(),
+                List.of(new ContextItem("The projext is fine", 0.8, docId)));
+        Faq faq2 = new Faq(UUID.randomUUID(), "Q2", "A2", false, false, LocalDateTime.now(), List.of());
         faqRepository.saveAll(List.of(faq1, faq2));
 
         List<Faq> validatedFaqs = faqRepository.findByValidated(true);
 
         assertThat(validatedFaqs).hasSize(1);
         assertThat(validatedFaqs.get(0).getQuestion()).isEqualTo("Q1");
+        assertThat(validatedFaqs.get(0).getContextItems().get(0).getText()).isEqualTo("The projext is fine");
+        assertThat(validatedFaqs.get(0).getContextItems().get(0).getScore()).isEqualTo(0.8);
+        assertThat(validatedFaqs.get(0).getContextItems().get(0).getDocId()).isEqualTo(docId);
     }
 
     @Test
     @DisplayName("Should find FAQs containing keyword (case insensitive)")
     void testFindByQuestionContainingIgnoreCase() {
-        Faq faq = new Faq(UUID.randomUUID(), "What is AI?", "Artificial Intelligence", true, false, LocalDateTime.now(), 0.9, List.of());
+        Faq faq = new Faq(UUID.randomUUID(), "What is AI?", "Artificial Intelligence", true, false, LocalDateTime.now(), List.of());
         faqRepository.save(faq);
 
         List<Faq> result = faqRepository.findByQuestionContainingIgnoreCase("ai");

@@ -2,6 +2,7 @@ package com.guberan.faq.service;
 
 import com.guberan.faq.dto.FaqDto;
 import com.guberan.faq.mapper.FaqMapper;
+import com.guberan.faq.model.ContextItem;
 import com.guberan.faq.model.Faq;
 import com.guberan.faq.repository.FaqRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -53,7 +54,7 @@ public class FaqService {
     public FaqDto ask(String userQuestionStr) {
         // Retrieve relevant documents
         List<Document> retrievedDocs = findSimilarValidatedFaq(userQuestionStr);
-        List<String> snippets = retrievedDocs.stream().map(Document::getText).toList();
+        List<ContextItem> contextItems = retrievedDocs.stream().map(faqMapper::toContextItem).toList();
 
         ChatResponse response = chatClient
                 .prompt()
@@ -62,7 +63,7 @@ public class FaqService {
                 .call()
                 .chatResponse();
 
-        Faq faq = new Faq(userQuestionStr, response.getResult().getOutput().getText(), snippets);
+        Faq faq = new Faq(userQuestionStr, response.getResult().getOutput().getText(), contextItems);
         faqRepository.save(faq);
 
         return faqMapper.toDto(faq);
@@ -100,5 +101,4 @@ public class FaqService {
                 .build();
         return vectorStore.similaritySearch(searchRequest);
     }
-
 }

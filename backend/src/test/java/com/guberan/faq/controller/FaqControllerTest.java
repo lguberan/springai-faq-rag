@@ -39,7 +39,8 @@ class FaqControllerTest {
     @Test
     void testAsk() throws Exception {
         String question = "What is Spring Boot?";
-        FaqDto response = new FaqDto(UUID.randomUUID().toString(), question, "Spring Boot is...", true, true, LocalDateTime.now(), 0.9, List.of("Snippet 1"));
+        FaqDto response = new FaqDto(UUID.randomUUID().toString(), question, "Spring Boot is...", true, true, LocalDateTime.now(),
+                List.of(new FaqDto.ContextItemDto("GoodAnswer1", 0.85, "550e8400-e29b-41d4-a716-446655440000")));
 
         Mockito.when(faqService.ask(question)).thenReturn(response);
 
@@ -51,7 +52,7 @@ class FaqControllerTest {
     @Test
     @WithMockUser(username = "admin", roles = "ADMIN")
     void testListFaq() throws Exception {
-        FaqDto faq = new FaqDto(UUID.randomUUID().toString(), "Q?", "A!", true, true, LocalDateTime.now(), 0.9, List.of("Context"));
+        FaqDto faq = new FaqDto(UUID.randomUUID().toString(), "Q?", "A!", true, true, LocalDateTime.now(), List.of());
         Mockito.when(faqService.getValidated(true)).thenReturn(List.of(faq));
 
         mockMvc.perform(get("/api/faq").param("validated", "true"))
@@ -62,7 +63,7 @@ class FaqControllerTest {
     @Test
     @WithMockUser(username = "admin", roles = "ADMIN")
     void testValidateFaq() throws Exception {
-        FaqDto faq = new FaqDto(UUID.randomUUID().toString(), "Q?", "A!", false, true, LocalDateTime.now(), 0.9, List.of());
+        FaqDto faq = new FaqDto(UUID.randomUUID().toString(), "Q?", "A!", false, true, LocalDateTime.now(), List.of());
         Mockito.when(faqService.validateResponse(Mockito.any(FaqDto.class))).thenReturn(faq);
 
         mockMvc.perform(patch("/api/faq/validate")
