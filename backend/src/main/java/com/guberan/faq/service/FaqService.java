@@ -40,8 +40,7 @@ public class FaqService {
         this.chatClient = chatClient;
         this.faqRepository = faqRepository;
         this.faqMapper = faqMapper;
-        this.questionAnswerAdvisor = new QuestionAnswerAdvisor(this.vectorStore,
-                SearchRequest.builder().topK(TOP_K).similarityThreshold(SIMILARITY_THRESHOLD).build());
+        this.questionAnswerAdvisor = new QuestionAnswerAdvisor(this.vectorStore);
     }
 
     public List<FaqDto> getValidated(Boolean validated) {

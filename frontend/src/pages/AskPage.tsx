@@ -45,7 +45,7 @@ const AskPage = () => {
     <Flex direction="column" align="center" mt={10}>
       <Box width="100%" maxW="800px" p={4} textAlign="left">
         <Flex align="center" mb={6}>
-          <Image src="/ai-faq-image.png" alt="AI Assistant" boxSize="60px" mr={4} />
+          <Image src="/ai-faq-image.png" alt="AI Assistant" height="90px" mr={4} />
           <Box>
             <Heading as="h2" size="lg">
               AI-assisted FAQ

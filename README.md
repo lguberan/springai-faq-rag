@@ -1,11 +1,11 @@
 # Spring AI FAQ RAG
 
-# About the Project
+## About the Project
 
 This project is a **Retrieval-Augmented Generation (RAG) FAQ system** built with **Spring AI** (currently version
-1.0.0-M7). It demonstrates the integration of:
+1.0.0-RC1). It demonstrates the integration of:
 
-- **Spring Boot 3.2.4 + Java 23** (Backend)
+- **Spring Boot 3.4.5 + Java 23** (Backend)
 - **Spring AI** for OpenAI integration
 - **pgvector + PostgreSQL** for vector storage and similarity search
 - **React + Vite** (Frontend)
@@ -33,20 +33,14 @@ libraries. This version replaces the Python backend with a **Java-native solutio
 
 ### Prerequisites
 
-- **Docker & Docker Compose** installed
-- **Java 23** and **Maven 3.9+** (for local development)
-- **OpenAI API Key** see https://platform.openai.com/
-
-### Prerequisites
-
-- **[Docker](https://www.docker.com/products/docker-desktop/)** and *
-  *[Docker Compose](https://docs.docker.com/compose/install/)** installed
+- **[Docker](https://www.docker.com/products/docker-desktop/)**
+  and **[Docker Compose](https://docs.docker.com/compose/install/)** installed
 - **[Java 23](https://jdk.java.net/23/)** and **[Maven 3.9+](https://maven.apache.org/)** (for local development)
 - An **OpenAI API key** (you can get one at https://platform.openai.com/account/api-keys)
 
 ---
 
-## Running with Docker Compose
+### Running with Docker Compose
 
 ```bash
 # Clone the repository
@@ -65,7 +59,15 @@ docker-compose up --build
 - **Frontend**: [http://localhost:5173](http://localhost:5173) (use admin/admin)
 - **API doc. Swagger**:  [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 - **Backend API**: [http://localhost:8080/api/faq?validated=true](http://localhost:8080/api/faq?validated=true)
-- **pgweb** web-based PostgreSQL client: http://localhost:8081”
+- **pgweb** web-based PostgreSQL client: http://localhost:8081
+
+---
+
+## 🖼️ Screenshots
+
+| Ask Page                | Admin Panel                 |
+|-------------------------|-----------------------------|
+| ![Ask](docs/ui-ask.png) | ![Admin](docs/ui-admin.png) |
 
 ---
 

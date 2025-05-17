@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/faq")
-@OpenAPIDefinition(info = @Info(title = "Foos API", version = "v1"))
+@OpenAPIDefinition(info = @Info(title = "springai-faq-rag API", version = "v1"))
 @Tag(name = "FAQ", description = "Endpoints to manage FAQs")
 @RequiredArgsConstructor
 public class FaqController {
@@ -75,7 +75,7 @@ public class FaqController {
     public FaqDto validateFaq(@RequestBody FaqDto faqDto) {
         return faqService.validateResponse(faqDto);
     }
-    
+
     @Operation(
             summary = "Delete a FAQ",
             description = "Deletes a specific FAQ by its ID",
