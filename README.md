@@ -75,3 +75,12 @@ docker-compose up --build
 
 - Only authenticated users with role `ADMIN` can access the validation endpoints.
 - CSRF and HTTP Basic are enabled for backend.
+
+---
+
+## 📜 License
+
+This project is open source and available under the MIT License.
+
+[![Website](https://img.shields.io/website?url=https%3A%2F%2Flguberan.github.io%2Fspringai-faq-rag)](https://lguberan.github.io/springai-faq-rag)
+
