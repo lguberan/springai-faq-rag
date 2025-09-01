@@ -8,8 +8,6 @@ import {
   Stack,
   Text,
   Textarea,
-  UnorderedList,
-  ListItem,
   Image,
   Progress,
 } from "@chakra-ui/react";

@@ -11,7 +11,10 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
@@ -39,7 +42,10 @@ public class FaqController {
     )
     @GetMapping("/ask")
     public FaqDto ask(@RequestParam String question) {
-        return faqService.ask(question);
+        if (question == null || question.trim().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Question parameter is required");
+        }
+        return faqService.ask(question.trim());
     }
 
     @Operation(summary = "List all FAQs", description = "Returns a list of FAQs, optionally filtered by validation status")
@@ -71,7 +77,7 @@ public class FaqController {
             )
     )
     @PatchMapping("/validate")
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public FaqDto validateFaq(@RequestBody FaqDto faqDto) {
         return faqService.validateResponse(faqDto);
     }
@@ -93,7 +99,7 @@ public class FaqController {
             }
     )
     @DeleteMapping("/{faqId}")
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public boolean deleteFaq(@PathVariable UUID faqId) {
         return faqService.deleteFaq(faqId);
     }

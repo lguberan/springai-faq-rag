@@ -19,7 +19,7 @@
     <description>FAQ system using Spring AI and RAG</description>
 
     <properties>
-        <java.version>23</java.version>
+        <java.version>17</java.version>
         <spring.boot.version>3.4.5</spring.boot.version>
         <swagger.version>2.8.8</swagger.version>
         <spring-ai.version>1.0.0-RC1</spring-ai.version>
