@@ -47,3 +47,6 @@ frontend/build/
 frontend/.vite/
 frontend/.parcel-cache/
 frontend/tsconfig.tsbuildinfo
+
+### Frontend Node.js binaries (managed by frontend-maven-plugin) ###
+frontend/node/
