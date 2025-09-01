@@ -8,7 +8,6 @@ import {
   AccordionIcon,
   Box,
   Button,
-  Divider,
   Flex,
   Heading,
   Progress,
@@ -47,7 +46,7 @@ const AdminPage = () => {
         setQuestions(data.slice().reverse());
       })
       .catch(() => toast({ title: 'Error fetching questions', status: 'error' }));
-  }, []);
+  }, [toast]);
 
   const validateAnswer = (faq: FaqDto) => {
     const correctedAnswer = editedAnswers[faq.id] ?? faq.answer;

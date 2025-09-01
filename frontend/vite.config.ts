@@ -11,4 +11,16 @@ export default defineConfig({
         //  changeOrigin: true,
       },
     },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          chakra: ['@chakra-ui/react', '@emotion/react', '@emotion/styled'],
+          router: ['react-router-dom'],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1000,
+  },
 })

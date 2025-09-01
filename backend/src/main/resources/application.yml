@@ -29,6 +29,15 @@ management:
     web:
       exposure:
         include: "*"
+      base-path: /actuator
+  security:
+    enabled: true
+
+app:
+  security:
+    admin:
+      username: ${ADMIN_USERNAME:admin}
+      password: ${ADMIN_PASSWORD:admin}
 
 logging:
   level:
