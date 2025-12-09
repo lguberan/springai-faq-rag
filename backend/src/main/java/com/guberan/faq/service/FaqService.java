@@ -40,7 +40,7 @@ public class FaqService {
         this.chatClient = chatClient;
         this.faqRepository = faqRepository;
         this.faqMapper = faqMapper;
-        this.questionAnswerAdvisor = new QuestionAnswerAdvisor(this.vectorStore);
+        this.questionAnswerAdvisor = QuestionAnswerAdvisor.builder(this.vectorStore).build();
     }
 
     public List<FaqDto> getValidated(Boolean validated) {
