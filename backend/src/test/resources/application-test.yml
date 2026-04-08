@@ -1,0 +1,27 @@
+spring:
+  ai:
+    openai:
+      api-key: test
+      enabled: false
+      chat:
+        enabled: false
+      embedding:
+        enabled: false
+      audio:
+        speech:
+          enabled: false
+    vectorstore:
+      enabled: false
+    model:
+      embedding: none
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  test:
+    print-condition-evaluation-report: false
+
+logging:
+  level:
+    org.springframework.security: DEBUG

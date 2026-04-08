@@ -1,21 +1,22 @@
-import { Box, Button, Flex } from "@chakra-ui/react";
-import { Link, Outlet } from "react-router-dom";
+import {Box, Button, Flex} from "@chakra-ui/react";
+import {Link, Outlet, useLocation} from "react-router-dom";
 
 const App = () => {
-  return (
-    <Box p={4}>
-      <Flex justify="center" gap={4} mb={8}>
-        <Button as={Link} to="/" colorScheme="teal" variant="solid">
-          Ask
-        </Button>
-        <Button as={Link} to="/admin" colorScheme="teal" variant="outline">
-          Admin
-        </Button>
-      </Flex>
+    const location = useLocation();
+    const isAdmin = location.pathname.startsWith("/admin");
 
-      <Outlet />
-    </Box>
-  );
+    return (
+        <Box p={4}>
+            <Flex justify="center" gap={4} mb={8}>
+                <Button asChild variant={isAdmin ? "outline" : "solid"} colorPalette="teal">
+                    <Link to="/">Ask</Link>
+                </Button>
+                <Button asChild variant={isAdmin ? "solid" : "outline"} colorPalette="teal">
+                    <Link to="/admin">Admin</Link>
+                </Button>
+            </Flex>
+            <Outlet/>
+        </Box>
+    );
 };
-
 export default App;

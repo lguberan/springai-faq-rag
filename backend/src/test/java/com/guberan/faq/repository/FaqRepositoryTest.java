@@ -5,9 +5,7 @@ import com.guberan.faq.model.Faq;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,8 +14,6 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-@EntityScan(basePackages = "com.guberan.faq.model")
-@EnableJpaRepositories(basePackages = "com.guberan.faq.repository")
 class FaqRepositoryTest {
 
     @Autowired
@@ -31,14 +27,21 @@ class FaqRepositoryTest {
                 List.of(new ContextItem("The projext is fine", 0.8, docId)));
         Faq faq2 = new Faq(UUID.randomUUID(), "Q2", "A2", false, false, LocalDateTime.now(), List.of());
         faqRepository.saveAll(List.of(faq1, faq2));
+        faqRepository.flush();
 
         List<Faq> validatedFaqs = faqRepository.findByValidated(true);
 
-        assertThat(validatedFaqs).hasSize(1);
-        assertThat(validatedFaqs.get(0).getQuestion()).isEqualTo("Q1");
-        assertThat(validatedFaqs.get(0).getContextItems().get(0).getText()).isEqualTo("The projext is fine");
-        assertThat(validatedFaqs.get(0).getContextItems().get(0).getScore()).isEqualTo(0.8);
-        assertThat(validatedFaqs.get(0).getContextItems().get(0).getDocId()).isEqualTo(docId);
+        assertThat(validatedFaqs)
+                .singleElement()
+                .satisfies(faq -> {
+                    assertThat(faq.getContextItems())
+                            .singleElement()
+                            .satisfies(ctx -> {
+                                assertThat(ctx.getText()).isEqualTo("The projext is fine");
+                                assertThat(ctx.getScore()).isEqualTo(0.8);
+                                assertThat(ctx.getDocId()).isEqualTo(docId);
+                            });
+                });
     }
 
     @Test

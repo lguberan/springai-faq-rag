@@ -3,10 +3,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: postgres
-  flyway:
-    enabled: true
-    baseline-on-migrate: true
-    locations: classpath:db/migration
   jpa:
     hibernate:
       ddl-auto: update
@@ -14,11 +10,12 @@ spring:
     openai:
       api-key: ${OPENAI_API_KEY}
       chat:
-        model: gpt-3.5-turbo
+        model: gpt-4o-mini
       embedding:
-        model: text-embedding-ada-002
+        model: text-embedding-3-small
     vectorstore:
       pgvector:
+        initialize-schema: true
         index-type: HNSW
         distance-type: COSINE_DISTANCE
         dimensions: 1536
@@ -33,3 +30,21 @@ management:
 logging:
   level:
     org.springframework.security: DEBUG
+    org.springframework.boot.autoconfigure: INFO
+
+app:
+  ai:
+    system-prompt: |
+      You are an expert FAQ assistant.
+      
+       Guidelines:
+       - Use the provided context as your primary source of information
+       - If the context is insufficient, you may use general knowledge to complete the answer
+       - Clearly prioritize context over general knowledge
+       - If the answer is not found and cannot be reasonably inferred, say "I don't know" or "Not found in knowledge base"
+       - Do not invent specific facts that are not grounded in the context
+      
+       Style:
+       - Be clear, concise, and accurate
+       - Provide direct answers
+       - Avoid speculation

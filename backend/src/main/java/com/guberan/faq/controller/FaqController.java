@@ -71,7 +71,6 @@ public class FaqController {
             )
     )
     @PatchMapping("/validate")
-    //@PreAuthorize("hasRole('ADMIN')")
     public FaqDto validateFaq(@RequestBody FaqDto faqDto) {
         return faqService.validateResponse(faqDto);
     }
@@ -93,7 +92,6 @@ public class FaqController {
             }
     )
     @DeleteMapping("/{faqId}")
-    //@PreAuthorize("hasRole('ADMIN')")
     public boolean deleteFaq(@PathVariable UUID faqId) {
         return faqService.deleteFaq(faqId);
     }

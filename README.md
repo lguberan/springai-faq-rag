@@ -5,7 +5,7 @@
 This project is a **Retrieval-Augmented Generation (RAG) FAQ system** built with **Spring AI** (currently version
 1.1.2). It demonstrates the integration of:
 
-- **Spring Boot 3.5.8 + Java 23** (Backend)
+- **Spring Boot 4.0.5 + Java 25** (Backend)
 - **Spring AI** for OpenAI integration
 - **pgvector + PostgreSQL** for vector storage and similarity search
 - **React + Vite** (Frontend)
@@ -35,7 +35,7 @@ libraries. This version replaces the Python backend with a **Java-native solutio
 
 - **[Docker](https://www.docker.com/products/docker-desktop/)**
   and **[Docker Compose](https://docs.docker.com/compose/install/)** installed
-- **[Java 23](https://jdk.java.net/23/)** and **[Maven 3.9+](https://maven.apache.org/)** (for local development)
+- **[Java 25](https://jdk.java.net/25/)** and **[Maven 3.9+](https://maven.apache.org/)** (for local development)
 - An **OpenAI API key** (you can get one at https://platform.openai.com/account/api-keys)
 
 ---

@@ -1,8 +1,8 @@
 # Stage 1: Build the React app
-FROM node:20 AS builder
+FROM node:25 AS builder
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
+RUN npm ci
 COPY . .
 RUN npm run build
 
