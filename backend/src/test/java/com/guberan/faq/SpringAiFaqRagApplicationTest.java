@@ -1,6 +1,8 @@
 package com.guberan.faq;
 
 import com.guberan.faq.config.DatabaseSeeder;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -18,8 +20,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 class SpringAiFaqRagApplicationTest {
 
     @Container
-    static PostgreSQLContainer<?> postgres =
-            new PostgreSQLContainer<>("pgvector/pgvector:pg18").withDatabaseName("postgres");
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("pgvector/pgvector:pg18").withDatabaseName("postgres");
 
     @MockitoBean
     DatabaseSeeder databaseSeeder;
@@ -32,7 +33,18 @@ class SpringAiFaqRagApplicationTest {
         registry.add("spring.jpa.hibernate.ddl-auto", () -> "create-drop");
     }
 
+    @BeforeAll
+    static void beforeAll() {
+        postgres.start();
+    }
+
+    @AfterAll
+    static void afterAll() {
+        postgres.stop();
+    }
+
     @Test
     void contextLoads() {
     }
+
 }
