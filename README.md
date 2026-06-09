@@ -5,7 +5,7 @@
 This project is a **Retrieval-Augmented Generation (RAG) FAQ system** built with **Spring AI** (currently version
 1.1.2). It demonstrates the integration of:
 
-- **Spring Boot 4.0.5 + Java 25** (Backend)
+- **Spring Boot 4.0.6 + Java 25** (Backend)
 - **Spring AI** for OpenAI integration
 - **pgvector + PostgreSQL** for vector storage and similarity search
 - **React + Vite** (Frontend)

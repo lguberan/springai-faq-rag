@@ -16,7 +16,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 @SpringBootTest
 @ActiveProfiles("it")
-@Testcontainers
+@Testcontainers(disabledWithoutDocker = true)
 class SpringAiFaqRagApplicationTest {
 
     @Container
