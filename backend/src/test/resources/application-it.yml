@@ -1,7 +1,7 @@
 spring:
   ai:
     openai:
-      api-key: ${OPENAI_API_KEY}
+      api-key: test
   datasource:
     hikari:
       minimumIdle: 2
