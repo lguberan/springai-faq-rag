@@ -1,8 +1,20 @@
 HELP.md
+.DS_Store
+
+### Maven ###
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+
+### Frontend ###
+node_modules/
+dist/
+/frontend/node/
+*.tsbuildinfo
+.vite/
+.eslintcache
+npm-debug.log*
 
 ### STS ###
 .apt_generated
@@ -22,7 +34,6 @@ target/
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
-/dist/
 /nbdist/
 /.nb-gradle/
 build/
@@ -34,3 +45,6 @@ build/
 
 ### Environment variable files (secrets should not be committed) ###
 .env
+.env.*
+!.env.example
+!**/.env.example

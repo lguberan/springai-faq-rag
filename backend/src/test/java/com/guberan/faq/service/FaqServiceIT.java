@@ -9,6 +9,7 @@ import org.mockito.Mockito;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.messages.AssistantMessage;
+import org.springframework.ai.chat.metadata.ChatResponseMetadata;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.model.Generation;
 import org.springframework.ai.document.Document;
@@ -53,10 +54,7 @@ class FaqServiceIT {
     void ask() {
         String question = "What is Spring AI?";
         String answer = "Spring AI is a framework...";
-
-        // mock vector search
-        Mockito.when(vectorStore.similaritySearch(any(SearchRequest.class)))
-                .thenReturn(List.of(new Document("context")));
+        Document retrievedDocument = new Document("context");
 
         // mock ChatClient fluent API
         ChatClient.ChatClientRequestSpec requestSpec = Mockito.mock(ChatClient.ChatClientRequestSpec.class);
@@ -74,6 +72,9 @@ class FaqServiceIT {
 
         Mockito.when(responseSpec.chatResponse()).thenReturn(chatResponse);
         Mockito.when(chatResponse.getResult()).thenReturn(generation);
+        Mockito.when(chatResponse.getMetadata()).thenReturn(ChatResponseMetadata.builder()
+                .keyValue(QuestionAnswerAdvisor.RETRIEVED_DOCUMENTS, List.of(retrievedDocument))
+                .build());
         Mockito.when(generation.getOutput()).thenReturn(assistantMessage);
         Mockito.when(assistantMessage.getText()).thenReturn(answer);
 
@@ -84,6 +85,11 @@ class FaqServiceIT {
         assertThat(result).isNotNull();
         assertThat(result.getQuestion()).isEqualTo(question);
         assertThat(result.getAnswer()).isEqualTo(answer);
+        assertThat(result.getContextItems())
+                .extracting(FaqDto.ContextItemDto::text)
+                .containsExactly("context");
+        // Retrieval is performed by QuestionAnswerAdvisor; the service must not issue a second search.
+        Mockito.verify(vectorStore, Mockito.never()).similaritySearch(any(SearchRequest.class));
 
         transactionTemplate.execute(status -> {
             Optional<Faq> saved = faqRepository.findById(UUID.fromString(result.getId()));

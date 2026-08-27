@@ -1,5 +1,5 @@
 # Stage 1: Build the React app
-FROM node:25 AS builder
+FROM node:26.7.0 AS builder
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci

@@ -29,6 +29,10 @@ public class FaqService {
     public static final int TOP_K = 8;
     // Minimum similarity score to accept results; allows broad matches while filtering out irrelevant content
     public static final double SIMILARITY_THRESHOLD = 0.4;
+    private static final SearchRequest RAG_SEARCH_REQUEST = SearchRequest.builder()
+            .topK(TOP_K)
+            .similarityThreshold(SIMILARITY_THRESHOLD)
+            .build();
 
     private final VectorStore vectorStore;
     private final ChatClient chatClient;
@@ -44,7 +48,9 @@ public class FaqService {
         this.chatClient = chatClient;
         this.faqRepository = faqRepository;
         this.faqMapper = faqMapper;
-        this.questionAnswerAdvisor = QuestionAnswerAdvisor.builder(this.vectorStore).build();
+        this.questionAnswerAdvisor = QuestionAnswerAdvisor.builder(this.vectorStore)
+                .searchRequest(RAG_SEARCH_REQUEST)
+                .build();
     }
 
     public List<FaqDto> getValidated(Boolean validated) {
@@ -55,10 +61,6 @@ public class FaqService {
     }
 
     public FaqDto ask(String userQuestionStr) {
-        // Retrieve relevant documents
-        List<Document> retrievedDocs = findSimilarValidatedFaq(userQuestionStr);
-        List<ContextItem> contextItems = retrievedDocs.stream().map(faqMapper::toContextItem).toList();
-
         ChatResponse response = chatClient
                 .prompt()
                 .system(systemPrompt)
@@ -66,6 +68,10 @@ public class FaqService {
                 .user(userQuestionStr)
                 .call()
                 .chatResponse();
+
+        List<Document> retrievedDocs = response.getMetadata().getOrDefault(
+                QuestionAnswerAdvisor.RETRIEVED_DOCUMENTS, List.<Document>of());
+        List<ContextItem> contextItems = retrievedDocs.stream().map(faqMapper::toContextItem).toList();
 
         Faq faq = new Faq(userQuestionStr, response.getResult().getOutput().getText(), contextItems);
         faqRepository.save(faq);
@@ -99,12 +105,4 @@ public class FaqService {
         }
     }
 
-    public List<Document> findSimilarValidatedFaq(String userQuestionStr) {
-        SearchRequest searchRequest = SearchRequest.builder()
-                .query(userQuestionStr)
-                .topK(TOP_K)
-                .similarityThreshold(SIMILARITY_THRESHOLD)
-                .build();
-        return vectorStore.similaritySearch(searchRequest);
-    }
 }
